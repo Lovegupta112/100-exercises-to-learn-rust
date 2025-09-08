@@ -1,19 +1,38 @@
 // TODO: `easy_ticket` should panic when the title is invalid.
 //   When the description is invalid, instead, it should use a default description:
 //   "Description not provided".
-fn easy_ticket(title: String, description: String, status: Status) -> Ticket {
-    todo!()
+pub fn easy_ticket(title: String, description: String, status: Status) -> Ticket {
+    // todo!()
+    // if title.is_empty(){
+    //     panic!("Title cannot be empty");
+    // }
+    // else if description.is_empty() {
+    //     Ticket::new(title, "Description not provided".to_string(), status).unwrap()
+    // }
+    // else{
+      match Ticket::new(title.clone(), description, status.clone()) {
+        Ok(data)=>data,
+        Err(e)=>{
+            if e.contains("Description") {
+                Ticket::new(title, "Description not provided".to_string(), status).unwrap()
+            }
+            else{
+                panic!("{e}");
+            }
+        }
+      }     
+    // }
 }
 
 #[derive(Debug, PartialEq, Clone)]
-struct Ticket {
+pub struct Ticket {
     title: String,
     description: String,
     status: Status,
 }
 
 #[derive(Debug, PartialEq, Clone)]
-enum Status {
+pub enum Status {
     ToDo,
     InProgress { assigned_to: String },
     Done,
